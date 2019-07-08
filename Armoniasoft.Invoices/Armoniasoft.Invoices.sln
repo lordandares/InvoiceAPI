@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Armoniasoft.Invoices", "Armoniasoft.Invoices\Armoniasoft.Invoices.csproj", "{12CB3445-D6D1-4EA5-BE4F-E8C4D7A0E244}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniasoft.Invoices.Service", "Armoniasoft.Invoices.Service\Armoniasoft.Invoices.Service.csproj", "{024DF4FC-74F1-4070-8154-62200C06832D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniasoft.Invoices.Repository", "Armoniasoft.Invoices.Repository\Armoniasoft.Invoices.Repository.csproj", "{691F88B7-5804-44EC-8F1A-C9749657F119}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniasoft.Invoices.Mapping", "Armoniasoft.Invoices.Mapping\Armoniasoft.Invoices.Mapping.csproj", "{4560917C-6CFF-4403-B275-2FB36F26308F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Armoniasoft.ClientDB", "Armoniasoft.ClientDB\Armoniasoft.ClientDB.csproj", "{68BFB89F-EB3B-4F4F-9FE6-17A3E7EAEEB5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12CB3445-D6D1-4EA5-BE4F-E8C4D7A0E244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12CB3445-D6D1-4EA5-BE4F-E8C4D7A0E244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12CB3445-D6D1-4EA5-BE4F-E8C4D7A0E244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12CB3445-D6D1-4EA5-BE4F-E8C4D7A0E244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{024DF4FC-74F1-4070-8154-62200C06832D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{024DF4FC-74F1-4070-8154-62200C06832D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{024DF4FC-74F1-4070-8154-62200C06832D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{024DF4FC-74F1-4070-8154-62200C06832D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691F88B7-5804-44EC-8F1A-C9749657F119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691F88B7-5804-44EC-8F1A-C9749657F119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691F88B7-5804-44EC-8F1A-C9749657F119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691F88B7-5804-44EC-8F1A-C9749657F119}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4560917C-6CFF-4403-B275-2FB36F26308F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4560917C-6CFF-4403-B275-2FB36F26308F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4560917C-6CFF-4403-B275-2FB36F26308F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4560917C-6CFF-4403-B275-2FB36F26308F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68BFB89F-EB3B-4F4F-9FE6-17A3E7EAEEB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68BFB89F-EB3B-4F4F-9FE6-17A3E7EAEEB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68BFB89F-EB3B-4F4F-9FE6-17A3E7EAEEB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68BFB89F-EB3B-4F4F-9FE6-17A3E7EAEEB5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F74129F9-5949-4DBB-A420-5C8B2BD759A1}
+	EndGlobalSection
+EndGlobal

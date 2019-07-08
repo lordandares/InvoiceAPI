@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "943eef2f-40cc-47bb-b20d-1c63c8622210",
+		"name": "Products Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Product By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "tenantId",
+						"value": "048ae5e4-004e-427a-8a5d-3a4a42c47ee7",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:7071/api/products/4159493b-20c7-116b-db14-6250ac6301e9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"api",
+						"products",
+						"4159493b-20c7-116b-db14-6250ac6301e9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "tenantId",
+						"value": "048ae5e4-004e-427a-8a5d-3a4a42c47ee7",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:7071/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "tenantId",
+						"value": "048ae5e4-004e-427a-8a5d-3a4a42c47ee7",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"tenantId\": \"048ae5e4-004e-427a-8a5d-3a4a42c47ee7\",\n        \"description\": \"description3\",\n        \"type\": \"product\"\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:7071/api/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"api",
+						"product"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,87 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": {
+      "value": "dev"
+    },
+    "appRegion": {
+      "value": "cus"
+    },
+    "appRegionName": {
+      "value": "Central US"
+    },
+    "appName": {
+      "value": "next"
+    },
+    "cosmosAuthKey": {
+      "value": ""
+    },
+    "trackCosmosTelemetry": {
+      "value": true
+    },
+    "cosmosReadKey": {
+      "value": ""
+    },
+    "initialTemplateUrl": {
+      "value": "https://sanexttaskscusdev.blob.core.windows.net/fa-next-api-tasks-reports/InitialTemplate.pdf?sp=rl&st=2019-04-26T15:26:57Z&se=2999-04-27T15:26:00Z&sv=2018-03-28&sig=551AiXP05Jt7PehI8H51li69u4MEcp4%2FZEOAeK2oHuM%3D&sr=b"
+    },
+    "skuName": {
+      "value": "Y1"
+    },
+    "skuCapacity": {
+      "value": 0
+    },
+    "setCustomDomainNameSSLCert": {
+      "value": false
+    },
+    "sslCertThumbprint": {
+      "value": "7F722D73D7B09D5BE648825DC6AB4BCCF6B79642"
+    },
+    "proxyIpAddresses": {
+      "value": [
+        {
+          "name": "API Management",
+          "ipAddress": "13.67.137.19"
+        },
+        {
+          "name": "Team HQ",
+          "ipAddress": "98.175.195.242"
+        },
+        {
+          "name": "Deliveron",
+          "ipAddress": "63.224.169.90"
+        },
+        {
+          "name": "NeXT WAF",
+          "ipAddress": "52.176.165.194"
+        },
+        {
+          "name": "Functions Outbound IP 1",
+          "ipAddress": "23.99.200.241"
+        },
+        {
+          "name": "Functions Outbound IP 2",
+          "ipAddress": "23.99.204.51"
+        },
+        {
+          "name": "Functions Outbound IP 3",
+          "ipAddress": "23.99.204.240"
+        },
+        {
+          "name": "Functions Outbound IP 4",
+          "ipAddress": "23.99.205.217"
+        }
+      ]
+    },
+    "sentryDsn": {
+      "value": ""
+    },
+    "serviceBusListenerKey": {
+      "value": ""
+    },
+    "serviceBusSenderKey": {
+      "value": ""
+    }
+  }
+}

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Armoniasoft.Products.ProductService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Armoniasoft.Products.Mapping\Armoniasoft.Products.Mapping.csproj" />
+    <ProjectReference Include="..\Armoniasoft.Products.Repository\Armoniasoft.Products.Repository.csproj" />
+  </ItemGroup>
+  
+</Project>

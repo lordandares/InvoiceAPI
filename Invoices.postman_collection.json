@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "3b09bdf8-16b1-4642-9d08-0ff7712dc5ca",
+		"name": "Invoices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Invoice",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "tenantId",
+						"type": "text",
+						"value": "048ae5e4-004e-427a-8a5d-3a4a42c47ee7"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"Estandar\",\r\n    \"tenantId\": \"048ae5e4-004e-427a-8a5d-3a4a42c47ee7\",\r\n    \"header\": {\r\n      \"nitEmisor\": \"2711283010\",\r\n      \"numeroFactura\": \"1\",\r\n      \"cuf\": \"1DAEA228EEE953E4CB07B59815849B4EC100FA6A1\",\r\n      \"cufd\": \"5C1522F6AD52A563690300613A8F9F12\",\r\n      \"codigoSucursal\": \"0\",\r\n      \"direccion\": \"Calle Juan Pablo II #54\",\r\n      \"codigoPuntoVenta\": \"1\" ,\r\n      \"fechaEmision\": \"2019-05-06T17:37:36.3283475-04:00\",\r\n      \"nombreRazonSocial\": \"Pablo Mamani\",\r\n      \"codigoTipoDocumentoIdentidad\": \"1\",\r\n      \"numeroDocumento\": \"1548971\",\r\n      \"complemento\": \"true\" ,\r\n      \"codigoCliente\": \"PMamani\",\r\n      \"codigoMetodoPago\": \"2\",\r\n      \"numeroTarjeta\": \"4651608789011556\",\r\n      \"montoTotal\": \"25\",\r\n      \"montoDescuento\": \"true\" ,\r\n      \"codigoMoneda\": \"689\",\r\n      \"tipoCambio\": \"1\",\r\n      \"montoTotalMoneda\": \"25\",\r\n      \"leyenda\": \"Ley N° 453: Tienes derecho a recibir información sobre las características y contenidos de los servicios que utilices.\",\r\n      \"usuario\": \"pperez\",\r\n      \"codigoDocumentoSector\": \"1\"\r\n    },\r\n    \"details\":[ {\r\n      \"actividadEconomica\": \"103020\",\r\n      \"codigoProductoSin\": \"21431\",\r\n      \"codigoProducto\": \"JN-131231\",\r\n      \"descripcion\": \"JUGO DE NARANJA EN VASO\",\r\n      \"cantidad\": \"10\",\r\n      \"unidadMedida\": \"VASO\",\r\n      \"precioUnitario\": \"2.5\",\r\n      \"montoDescuento\": \"true\" ,\r\n      \"subTotal\": \"25\",\r\n      \"numeroSerie\": \"true\" ,\r\n      \"numeroImei\":  \"true\" \r\n    }]\r\n\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:7073/api/invoices",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7073",
+					"path": [
+						"api",
+						"invoices"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

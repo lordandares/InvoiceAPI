@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <RootNamespace>Armoniasoft.Products.ProductService</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="8.1.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Armoniasoft.Clients.Mapping\Armoniasoft.Clients.Mapping.csproj" />
+        <ProjectReference Include="..\Armoniasoft.Clients.Repository\Armoniasoft.Clients.Repository.csproj" />
+    </ItemGroup>
+
+</Project>

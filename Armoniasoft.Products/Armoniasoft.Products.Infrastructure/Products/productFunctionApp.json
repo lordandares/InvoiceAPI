@@ -1,0 +1,343 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": {
+      "defaultValue": "dev",
+      "type": "string"
+    },
+    "functionName": {
+      "defaultValue": "product",
+      "type": "string"
+    },
+    "appRegion": {
+      "defaultValue": "cus",
+      "type": "string"
+    },
+    "appRegionName": {
+      "defaultValue": "Central US",
+      "type": "string"
+    },
+    "appName": {
+      "defaultValue": "armoniasoft",
+      "type": "string"
+    },
+    "initialTemplateUrl": {
+      "type": "string"
+    },
+    "skuName": {
+      "type": "string",
+      "defaultValue": "Y1",
+      "allowedValues": [
+        "Y1",
+        "F1",
+        "D1",
+        "B1",
+        "B2",
+        "B3",
+        "S1",
+        "S2",
+        "S3",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "metadata": {
+        "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+      }
+    },
+    "skuCapacity": {
+      "type": "int",
+      "defaultValue": 0,
+      "minValue": 0,
+      "metadata": {
+        "description": "Describes plan's instance count"
+      }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_ZRS",
+        "Premium_LRS"
+      ],
+      "metadata": {
+        "description": "Storage Account type"
+      }
+    },
+    "appInsightsRegion": {
+      "defaultValue": "scus",
+      "type": "string"
+    },
+    "cosmosAuthKey": {
+      "type": "string"
+    },
+    "cosmosReadKey": {
+      "type": "string"
+    },
+    "trackCosmosTelemetry": {
+      "type": "bool"
+    },
+    "sentryDsn": {
+      "type": "string"
+    },
+    "setCustomDomainNameSSLCert": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Deploys Azure Function with Custom Domain Name & SSL Certificate settings"
+      }
+    },
+    "sslCertThumbprint": {
+      "type": "string"
+    },
+    "proxyIpAddresses": {
+      "type": "array"
+    },
+    "serviceBusListenerKey": {
+      "type": "string"
+    },
+    "serviceBusSenderKey": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "storageAccountName": "[concat('sa',parameters('appName'),parameters('functionName'),parameters('appRegion'), parameters('environmentName'))]",
+    "appServicePlanName": "[concat('asp-',parameters('appName'),'-api-',parameters('functionName'),'-',parameters('appRegion'),'-', parameters('environmentName'))]",
+    "functionAppName": "[concat('fa-',parameters('appName'),'-api-',parameters('functionName'),'-',parameters('appRegion'),'-', parameters('environmentName'))]",
+    "functionAppDomainName": "[concat(variables('functionAppName'),'.myteamsoftware.com')]",
+    "functionsAppInsightsName": "[concat('appi-',parameters('appName'),'-api-',parameters('appInsightsRegion'),'-', parameters('environmentName'))]",
+    "apiSwaggerUrl": "[concat('https://', variables('functionAppName'), '.azurewebsites.net/api/Swagger')]",
+    "slotName": "staging",
+    "serviceBusListenerConnection": "[concat('Endpoint=sb://sb-',parameters('appName'),'-',parameters('appRegion'),'-',parameters('environmentName'),'.servicebus.windows.net/;SharedAccessKeyName=RootListenSharedAccessKey;SharedAccessKey=',parameters('serviceBusListenerKey'))]",
+    "serviceBusSenderConnection": "[concat('Endpoint=sb://sb-',parameters('appName'),'-',parameters('appRegion'),'-',parameters('environmentName'),'.servicebus.windows.net/;SharedAccessKeyName=RootSendSharedAccessKey;SharedAccessKey=',parameters('serviceBusSenderKey'))]",
+    "cosmosEndpoint": "[concat('https://cosmos-',parameters('appName'),'-',parameters('appRegion'),'-', parameters('environmentName'),'.documents.azure.com:443/')]",
+    "cosmosDatabaseId": "[concat(parameters('environmentName'),'db')]",
+    "cosmosCollectionId": "Tasks"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageAccountName')]",
+      "apiVersion": "2017-06-01",
+      "location": "[parameters('appRegionName')]",
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
+      },
+      "tags": {
+        "displayName": "Storage"
+      },
+      "kind": "Storage",
+      "properties": {
+        "supportsHttpsTrafficOnly": "true",
+        "encryption": {
+          "services": {
+            "blob": {
+              "enabled": true
+            },
+            "file": {
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "name": "[variables('appServicePlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "tags": {
+        "displayName": "ConsumptionServicePlan"
+      },
+      "sku": {
+        "name": "[parameters('skuName')]",
+        "capacity": "[parameters('skuCapacity')]"
+      },
+      "kind": "functionapp",
+      "location": "[parameters('appRegionName')]",
+      "properties": {
+        "name": "[variables('appServicePlanName')]",
+        "numberOfWorkers": 0
+      }
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "name": "[variables('functionAppName')]",
+      "type": "Microsoft.Web/sites",
+      "kind": "functionapp",
+      "location": "[parameters('appRegionName')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ],
+      "tags": {
+        "displayName": "FunctionAppTasks"
+      },
+      "properties": {
+        "name": "[variables('functionAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+      },
+      "resources": [
+        {
+          "condition": "[parameters('setCustomDomainNameSSLCert')]",
+          "apiVersion": "2015-08-01",
+          "type": "hostNameBindings",
+          "name": "[variables('functionAppDomainName')]",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', variables('functionAppName'))]"
+          ],
+          "tags": {
+            "displayName": "hostNameBinding"
+          },
+          "properties": {
+            "domainId": null,
+            "hostNameType": "Verified",
+            "siteName": "variables('functionAppName')",
+            "sslState": "SniEnabled",
+            "thumbprint": "[parameters('sslCertThumbprint')]"
+          }
+        },
+        {
+          "name": "slotConfigNames",
+          "type": "config",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
+          ],
+          "tags": {
+            "displayName": "slotConfigNames"
+          },
+          "properties": {
+            "appSettingNames": [
+              "StickySetting",
+              "WEBSITE_CONTENTSHARE",
+              "FUNCTION_TRIGGER_DISABLED"
+            ]
+          }
+        },
+        {
+          "apiVersion": "2016-03-01",
+          "name": "appsettings",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
+          ],
+          "properties": {
+            "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1)]",
+            "TASK_REPORT_TEMPLATE": "[parameters('initialTemplateUrl')]",
+            "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1)]",
+            "WEBSITE_CONTENTSHARE": "[toLower(variables('functionAppName'))]",
+            "FUNCTIONS_EXTENSION_VERSION": "~2",
+            "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+            "WEBSITE_TIME_ZONE": "Central Standard Time",
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', variables('functionsAppInsightsName')), '2014-04-01').InstrumentationKey]",
+            "SENTRY_DSN": "[parameters('sentryDsn')]",
+            "StickySetting": "StuckToProduction",
+            "AzureWebJobsSecretStorageType": "Blob",
+            "FUNCTION_TRIGGER_DISABLED": "False",
+            "SERVICEBUS_LISTENER_CONNECTION": "[variables('serviceBusListenerConnection')]",
+            "SERVICEBUS_SENDER_CONNECTION": "[variables('serviceBusSenderConnection')]",
+            "COSMOS_AUTHKEY": "[parameters('cosmosAuthKey')]",
+            "COSMOS_READKEY": "[parameters('cosmosReadKey')]",
+            "COSMOS_DATABASEID": "[variables('cosmosDatabaseId')]",
+            "COSMOS_COLLECTIONID": "[variables('cosmosCollectionId')]",
+            "COSMOS_ENDPOINT": "[variables('cosmosEndpoint')]",
+            "TRACK_COSMOS_TELEMETRY": "[parameters('trackCosmosTelemetry')]"
+          }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "name": "[variables('slotName')]",
+          "type": "slots",
+          "tags": {
+            "displayName": "[concat(variables('slotName'), ' Deployment Slot')]"
+          },
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
+          ],
+          "properties": {},
+          "resources": [
+            {
+              "apiVersion": "2016-03-01",
+              "name": "appsettings",
+              "type": "config",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]",
+                "[resourceId('Microsoft.Web/sites/slots', variables('functionAppName'), variables('slotName'))]"
+              ],
+              "properties": {
+                "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1)]",
+                "TASK_REPORT_TEMPLATE": "[parameters('initialTemplateUrl')]",
+                "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1)]",
+                "WEBSITE_CONTENTSHARE": "[concat(toLower(variables('functionAppName')),variables('slotName'))]",
+                "FUNCTIONS_EXTENSION_VERSION": "~2",
+                "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+                "WEBSITE_TIME_ZONE": "Central Standard Time",
+                "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', variables('functionsAppInsightsName')), '2014-04-01').InstrumentationKey]",
+                "SENTRY_DSN": "[parameters('sentryDsn')]",
+                "StickySetting": "[concat('StuckTo',variables('slotName'))]",
+                "AzureWebJobsSecretStorageType": "Blob",
+                "FUNCTION_TRIGGER_DISABLED": "True",
+                "SERVICEBUS_LISTENER_CONNECTION": "[variables('serviceBusListenerConnection')]",
+                "SERVICEBUS_SENDER_CONNECTION": "[variables('serviceBusSenderConnection')]",
+                "COSMOS_AUTHKEY": "[parameters('cosmosAuthKey')]",
+                "COSMOS_READKEY": "[parameters('cosmosReadKey')]",
+                "COSMOS_DATABASEID": "[variables('cosmosDatabaseId')]",
+                "COSMOS_COLLECTIONID": "[variables('cosmosCollectionId')]",
+                "COSMOS_ENDPOINT": "[variables('cosmosEndpoint')]",
+                "TRACK_COSMOS_TELEMETRY": "[parameters('trackCosmosTelemetry')]"
+              }
+            },
+            {
+              "apiVersion": "2016-03-01",
+              "type": "config",
+              "name": "web",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]",
+                "[resourceId('Microsoft.Web/sites/slots', variables('functionAppName'), variables('slotName'))]"
+              ],
+              "properties": {
+                "cors": {
+                  "allowedOrigins": [
+                    "*"
+                  ]
+                },
+                "ipSecurityRestrictions": "[parameters('proxyIpAddresses')]",
+                "apiDefinition": {
+                  "url": "[variables('apiSwaggerUrl')]"
+                }
+
+              }
+            }
+          ]
+        },
+        {
+          "name": "web",
+          "type": "config",
+          "apiVersion": "2016-03-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', variables('functionAppName'))]"
+          ],
+          "tags": {
+            "displayName": "WebSettings"
+          },
+          "properties": {
+            "cors": {
+              "allowedOrigins": [
+                "*"
+              ]
+            },
+            "ipSecurityRestrictions": "[parameters('proxyIpAddresses')]",
+            "apiDefinition": {
+              "url": "[variables('apiSwaggerUrl')]"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
